@@ -53,9 +53,57 @@ body{background:linear-gradient(180deg,#fffaf0 0,#f5f2ea 360px,var(--bg) 100%);c
 .darkmode .notice{color:#f1d6a6;background:#f2c07814;border-color:#d99b4945}
 .dialog:has(#toolBody [id^="ps"]){--tool-accent:#2563eb;border-top:4px solid var(--tool-accent)}.dialog:has(#toolBody [id^="am"]){--tool-accent:#2563eb;border-top:4px solid var(--tool-accent)}.dialog:has(#toolBody [id^="sw"]){--tool-accent:#d95d39;border-top:4px solid var(--tool-accent)}.dialog:has(#toolBody [id^="cf"]){--tool-accent:#7c3aed;border-top:4px solid var(--tool-accent)}.dialog:has(#toolBody [id^="ps"]) .btn.primary,.dialog:has(#toolBody [id^="am"]) .btn.primary,.dialog:has(#toolBody [id^="sw"]) .btn.primary,.dialog:has(#toolBody [id^="cf"]) .btn.primary{background:var(--tool-accent);border-color:var(--tool-accent)}
 .tool p::before{content:"ببساطة: ";font-weight:800;color:#a9472b}.darkmode .tool p::before{color:#ffab85}
+
+/* Animated Adwatak welcome screen — distinct identity from HOKSH */
+#adwatakIntro{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;background:#080d1c;color:#f6f7ff;isolation:isolate;transition:opacity .85s ease,visibility .85s ease}
+#adwatakIntro::before,#adwatakIntro::after{content:"";position:absolute;inset:-30%;z-index:-2;pointer-events:none}
+#adwatakIntro::before{background:radial-gradient(ellipse at 18% 25%,#6d36d866,transparent 32%),radial-gradient(ellipse at 82% 68%,#00d7c355,transparent 30%),radial-gradient(ellipse at 50% 100%,#2447a544,transparent 40%);animation:introAurora 8s ease-in-out infinite alternate}
+#adwatakIntro::after{inset:0;z-index:-1;opacity:.23;background-image:linear-gradient(#6ee7f022 1px,transparent 1px),linear-gradient(90deg,#6ee7f022 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent);transform:perspective(500px) rotateX(8deg) scale(1.15);animation:introGrid 16s linear infinite}
+.intro-orbit{position:absolute;width:min(76vw,560px);aspect-ratio:1;border:1px solid #8e9bff25;border-radius:50%;animation:introSpin 24s linear infinite;pointer-events:none}
+.intro-orbit:before,.intro-orbit:after{content:"";position:absolute;border:1px solid #39e8d64c;border-radius:50%;inset:9%;transform:rotateX(64deg) rotate(24deg)}
+.intro-orbit:after{inset:19%;border-color:#9c83ff55;transform:rotateY(64deg) rotate(-30deg)}
+.intro-content{width:min(92vw,620px);padding:30px 20px;text-align:center;display:flex;align-items:center;flex-direction:column;gap:17px;animation:introRise 1s cubic-bezier(.2,.8,.2,1) both}
+.intro-symbol{position:relative;width:94px;height:94px;border-radius:29px;display:grid;place-items:center;font-size:47px;font-weight:950;color:#fff;background:linear-gradient(145deg,#775bff,#15c9c2);box-shadow:0 0 0 9px #ffffff08,0 0 65px #705bff70;transform:rotate(-5deg);animation:introPulse 2.5s ease-in-out infinite}
+.intro-symbol:after{content:"";position:absolute;inset:-10px;border-radius:34px;border:1px solid #66f4e880;animation:introRing 2.2s ease-out infinite}
+.intro-kicker{font-size:.76rem;letter-spacing:.22em;color:#77f2df;font-weight:800}
+.intro-title{font-size:clamp(2.5rem,8vw,4.5rem);line-height:1;margin:2px 0 0;font-weight:950;letter-spacing:-.05em}
+.intro-title span{background:linear-gradient(90deg,#fff,#9cf8eb 45%,#bbaaff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro-desc{margin:0;color:#bac5df;line-height:1.9;font-size:clamp(.9rem,2.5vw,1.05rem);max-width:440px}
+.intro-dev{font-size:.98rem;font-weight:800;color:#fff;margin-top:1px}
+.intro-dev:before{content:"";display:block;width:42px;height:2px;margin:0 auto 13px;background:linear-gradient(90deg,#23d8c4,#8c6bff);border-radius:4px}
+.intro-loader{width:170px;height:3px;border-radius:9px;background:#ffffff18;overflow:hidden;margin-top:5px}
+.intro-loader span{display:block;width:40%;height:100%;border-radius:9px;background:linear-gradient(90deg,#28d9c5,#9478ff);animation:introLoading 2.2s ease-in-out infinite}
+.intro-skip{margin-top:5px;border:1px solid #ffffff28;border-radius:99px;padding:9px 19px;background:#ffffff09;color:#dce4ff;font-size:.85rem;transition:background .2s}
+.intro-skip:hover{background:#ffffff18}
+#adwatakIntro.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+body.intro-lock{overflow:hidden}
+@keyframes introAurora{from{transform:translate3d(-2%,1%,0) scale(1)}to{transform:translate3d(2%,-2%,0) scale(1.12)}}
+@keyframes introGrid{from{background-position:0 0,0 0}to{background-position:0 42px,42px 0}}
+@keyframes introSpin{to{transform:rotate(360deg)}}
+@keyframes introRise{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes introPulse{0%,100%{box-shadow:0 0 0 9px #ffffff08,0 0 45px #705bff55}50%{box-shadow:0 0 0 13px #ffffff05,0 0 80px #15c9c270}}
+@keyframes introRing{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.22);opacity:0}}
+@keyframes introLoading{0%{transform:translateX(220%)}100%{transform:translateX(-260%)}}
+@media(max-width:480px){.intro-symbol{width:78px;height:78px;border-radius:24px;font-size:39px}.intro-orbit{width:92vw}.intro-content{gap:14px}}
+@media(prefers-reduced-motion:reduce){#adwatakIntro *,#adwatakIntro:before,#adwatakIntro:after{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
+
+<div id="adwatakIntro" role="dialog" aria-label="مرحباً بك في أدواتك">
+  <div class="intro-orbit" aria-hidden="true"></div>
+  <div class="intro-content">
+    <div class="intro-kicker">YOUR DIGITAL TOOLKIT</div>
+    <div class="intro-symbol" aria-hidden="true">✦</div>
+    <h1 class="intro-title"><span>أدواتك</span></h1>
+    <p class="intro-desc">مساحة واحدة لأفكارك وإنجازاتك.<br>أدوات عملية، تجربة أسرع، وإبداع بلا حدود.</p>
+    <div class="intro-dev">محمد شعبان محارب</div>
+    <div class="intro-loader" aria-hidden="true"><span></span></div>
+    <button class="intro-skip" id="introSkip" type="button">ابدأ التجربة ←</button>
+  </div>
+</div>
+
 <div class="wrap">
 <header class="top"><div class="brand"><div class="logo">✦</div><div>أدواتك <small>كل اللي تحتاجه… في مكان واحد</small></div></div><div class="actions"><button class="btn" id="themeBtn" aria-label="تغيير المظهر">☼ المظهر</button><a class="btn primary" href="#tools">ابدأ الآن ←</a></div></header>
 <section class="hero"><div><span class="eyebrow">✦ منصة عربية للأدوات اليومية</span><h1>كل أدواتك،<br><span class="gradient">بضغطة واحدة.</span></h1><p>اضبط صورك، جهّز ملفاتك، اشتغل على النصوص، واحسب وحوّل بسرعة. أدوات عملية بواجهة عربية بسيطة، والكثير منها يعمل مباشرة على جهازك دون رفع ملفاتك إلى خادم.</p><div class="searchbox"><span>⌕</span><input id="search" placeholder="دوّر على أداة… مثل ضغط الصور أو JSON" aria-label="ابحث عن أداة"><button class="btn primary" id="searchBtn">بحث</button></div></div><div class="hero-art"><div class="art-grid"><div class="art-tile"><span>🖼️</span><b>الصور</b><small>تعديل وتحويل</small></div><div class="art-tile"><span>🎬</span><b>الفيديو</b><small>أدوات محلية</small></div><div class="art-tile"><span>📄</span><b>PDF</b><small>ملفاتك بسهولة</small></div><div class="art-tile"><span>⚡</span><b>أدوات ذكية</b><small>وقت أقل وإنجاز أسرع</small></div></div></div></section>
@@ -453,6 +501,19 @@ if(id==='intro'){let recording=false;const title=()=>$('#inTitle').value.trim().
  if(id==='pdfexcel')$('#pexGo').onclick=()=>downloadBlob(new Blob([$('#pexIn').value],{type:'text/csv;charset=utf-8'}),'adwatak-table.csv');
 
 }
+
+/* Show the animated welcome once per browser tab, with a skip control. */
+(function(){
+ const intro=document.getElementById('adwatakIntro');
+ if(!intro)return;
+ document.body.classList.add('intro-lock');
+ let done=false;
+ const closeIntro=()=>{if(done)return;done=true;intro.classList.add('is-leaving');document.body.classList.remove('intro-lock');setTimeout(()=>intro.remove(),950)};
+ document.getElementById('introSkip')?.addEventListener('click',closeIntro);
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ window.setTimeout(closeIntro,reduced?1100:3900);
+})();
+
 filter();
 </script>
 </body></html>
