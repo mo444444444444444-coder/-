@@ -1,0 +1,12 @@
+{
+  "name": "أدواتك | Adwatak",
+  "short_name": "أدواتك",
+  "description": "أدوات عربية مجانية للصور والملفات والنصوص والتحويلات",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#10172a",
+  "icons": []
+}
