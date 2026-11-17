@@ -270,7 +270,7 @@ if(id==='videodl'){
   const out=$('#vdStatus');let u;
   try{u=new URL($('#vdUrl').value.trim());if(!['http:','https:'].includes(u.protocol))throw Error('استخدم رابط HTTP أو HTTPS صحيحًا.')}
   catch(e){out.textContent='الرابط غير صحيح. أدخل رابط ملف فيديو مباشر.';return}
-  if(/(^|\\.)((youtube\\.com)|(youtu\\.be)|(vimeo\\.com)|(tiktok\\.com)|(facebook\\.com)|(instagram\\.com))$/i.test(u.hostname)){out.textContent='هذا رابط صفحة منصة فيديو وليس رابط ملف مباشر. الأداة لا تستخرج الفيديوهات من منصات البث أو تتجاوز حمايتها.';return}
+  const blocked=['youtube.com','youtu.be','vimeo.com','tiktok.com','facebook.com','instagram.com'].some(d=>u.hostname===d||u.hostname.endsWith('.'+d));if(blocked){out.textContent='هذا رابط صفحة منصة فيديو وليس رابط ملف مباشر. الأداة لا تستخرج الفيديوهات من منصات البث أو تتجاوز حمايتها.';return}
   $('#vdGo').disabled=true;out.textContent='جارٍ محاولة الوصول إلى ملف الفيديو…';
   try{
    const response=await fetch(u.href,{mode:'cors'});
@@ -278,7 +278,7 @@ if(id==='videodl'){
    const type=(response.headers.get('content-type')||'').toLowerCase();
    if(type&&!type.startsWith('video/')&&!/octet-stream|binary/.test(type))throw Error('الرابط لا يبدو ملف فيديو مباشرًا (نوع المحتوى: '+type+').');
    const blob=await response.blob();if(!blob.size)throw Error('الملف فارغ.');
-   let name=$('#vdName').value.trim().replace(/[\\\\/:*?"<>|]/g,'_')||'video';
+   let name=$('#vdName').value.trim()||'video';for(const ch of ['\\','/',':','*','?','"','<','>','|'])name=name.split(ch).join('_');if(!/\.(mp4|webm|mov|m4v|ogv|ogg)$/i.test(name))name+='.mp4';
    if(!/\\.(mp4|webm|mov|m4v|ogv|ogg)$/i.test(name))name+='.mp4';
    downloadBlob(blob,name);out.textContent='تم تنزيل الملف. الحجم: '+(blob.size/1048576).toFixed(2)+' ميجابايت.';
   }catch(e){out.textContent='تعذر التنزيل من هذا الرابط: '+e.message+'. غالبًا يحتاج الخادم إلى السماح بطلبات CORS أو يمنع التنزيل المباشر. جرّب رابط ملف مباشر من استضافتك أو من مصدر يسمح بذلك.'}
